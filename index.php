@@ -352,6 +352,14 @@ font-size: 16px;
 				</form>
 			</td>
 		</tr>
+		 <tr>
+                        <td align="center" valign="top">
+                                <form action="http://192.168.0.102:61220/" method="get" target="_blank">
+                                        <button type="submit" class="button">Hard Disk Sentinel</button>
+                                </form>
+                        </td>
+                </tr>
+
 		<tr>
 
 			<td align="center" valign="bottom">
