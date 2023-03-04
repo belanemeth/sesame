@@ -51,9 +51,9 @@ font-size: 10px;
 font-family: 'Work Sans';
 padding-top: 2%;
 padding-bottom: 2%;
-height: 10px;
 text-align: center;
-height: 200px;
+height: 150px;
+width: 75%;
 overflow: auto;
 display: flex;
 flex-direction: column-reverse;
@@ -305,13 +305,13 @@ font-size: 16px;
 				$TSTAMP = date('Y-m-d h:i');
 				$device1 = shell_exec("ping -c 1 192.168.0.102 | grep packet | awk '{ print $6 \" \" $7 \" \" $8 }'");
 				$word = "error";
-				echo "BELA-SERVER: ${device1}<br />";
-				echo "Last Update ${TSTAMP}<br />";
+//				echo "BELA-SERVER: ${device1}<br />";
+//				echo "Last Update ${TSTAMP}<br />";
 				
 				if(strpos($device1, $word) !== false){
-				echo "The server is offline!";
+				echo "The server is offline! :(";
 				} else{
-				echo "The server is online!";	
+				echo "The server is online! :)";	
 				}?>
 			</div>
 		</td>
@@ -432,6 +432,13 @@ font-size: 16px;
 				<form action="/sesame/commands/refresh.php" method="get" target="_self">
 						<button type="submit" class="button">Refresh page</button>
 				</form>	
+			</td>
+		</tr>
+		<tr>
+			<td align="center" valign="top">
+				<form action="/sesame/commands/log_archive.php">
+						<input class="button" type="submit" value="Archive logs">
+				</form>
 			</td>
 		</tr>
 		<tr>
