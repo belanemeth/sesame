@@ -46,6 +46,19 @@ padding-bottom: 2%;
 height: 10px;
 }
 
+.log {
+font-size: 10px;
+font-family: 'Work Sans';
+padding-top: 2%;
+padding-bottom: 2%;
+height: 10px;
+text-align: center;
+height: 200px;
+overflow: auto;
+display: flex;
+flex-direction: column-reverse;
+}
+
 .hatter {
 background-repeat: no-repeat;
 background-position: center;
@@ -63,8 +76,8 @@ margin: 0 auto;
 position: absolute;
 top: 30%;
 width:100%
-
 }
+
 
 .center {
 position: absolute;
@@ -428,10 +441,23 @@ font-size: 16px;
 			</div>
 			</td>
 		</tr>
+		<tr>
+			<td align="center" valign="top">
+				<div class="log">
+					<?php
+					echo nl2br(file_get_contents( "/var/log/sesame/sesame.log" )); // get the contents, and echo it out.
+					?>
+				</div>
+			</td>
+		</tr>
+		
 	</tbody>
-	
 </table>
 </div>
+
+
+
+
 
 </body>
 
