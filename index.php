@@ -180,6 +180,17 @@ padding: 5px 15px;
 display: inline-block;
 }
 
+.button3 {
+font-size: 5px;
+width: 70%;
+font-family: arial;
+color: white;
+background-color: rgba(0, 0, 0, 0.7);
+padding: 2px 5px;
+display: inline-block;
+}
+
+
 .lablec {
 left: 50%;
 transform: translate( -50%, 0);
@@ -187,6 +198,7 @@ font-size: 12px;
 top: 0;
 margin-right: -50%;
 }
+
 
 .banner {
 font-size: 35px;
@@ -237,7 +249,6 @@ font-size: 16px;
 </video>
 
 <div>
-<div>
 	<table class="lablec" width="100%">
 	<tr>
 				<td align="left" width="33%" valign="top">
@@ -254,6 +265,8 @@ font-size: 16px;
 </div>
 
 
+
+<div>
 <table class= "fejlec2" width="100%">
 	<tr>
 		<td align="left" width="33%" valign="top">
@@ -271,8 +284,9 @@ font-size: 16px;
 		</td>
 	</tr>
 	<tr align="center">
-	<td>
-	</td>
+	<td align="left" width="33%" valign="top">
+				
+		</td>
 		<td>
 			<div class="text"><?php
 				$TSTAMP = date('Y-m-d h:i');
@@ -287,9 +301,11 @@ font-size: 16px;
 				echo "The server is online!";	
 				}?>
 			</div>
+		</td>
+		<td align="right" width="33%" valign="top">
 				
 		</td>
-	</tr>	
+	
 <!--	
 	<tr align="center">
 		<td>
@@ -304,6 +320,7 @@ font-size: 16px;
 -->	
 </table>
 </div>
+
 
 <div class="abovecenter">
 <table align="center">
@@ -326,35 +343,35 @@ font-size: 16px;
 
 		<tr>
 			<td align="center" valign="top">
-				<form action="http://192.168.0.117/admin/index.php" method="get" target="_blank">
+				<form action="http://192.168.0.117/admin/index.php" method="get" target="_self">
 					<button type="submit" class="button">Pi-hole</button>
 				</form>
 			</td>	
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<form action="http://192.168.0.117/nagios/" method="get" target="_blank">
+				<form action="http://192.168.0.117:8080/nagios/" method="get" target="_self">
 					<button type="submit" class="button">Nagios</button>
 				</form>
 			</td>
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<form action="http://192.168.0.102:32400/web/index.html" method="get" target="_blank">
+				<form action="http://192.168.0.102:32400/web/index.html" method="get" target="_self">
 					<button type="submit" class="button">Plex</button>
 				</form>
 			</td>
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<form action="http://192.168.0.102:8080/" method="get" target="_blank">
+				<form action="http://192.168.0.102:8080" method="get" target="_self">
 					<button type="submit" class="button">qBittorrent</button>
 				</form>
 			</td>
 		</tr>
 		 <tr>
                         <td align="center" valign="top">
-                                <form action="http://192.168.0.102:61220/" method="get" target="_blank">
+                                <form action="http://192.168.0.102:61220" method="get" target="_self">
                                         <button type="submit" class="button">Hard Disk Sentinel</button>
                                 </form>
                         </td>
@@ -395,6 +412,13 @@ font-size: 16px;
 				<form action="/sesame/commands/nagios_restart.php">
 						<input class="button" type="submit" value="Restart nagios">
 				</form>
+			</td>
+		</tr>
+		<tr>
+			<td align="center" valign="top">
+				<form action="/sesame/commands/refresh.php" method="get" target="_self">
+						<button type="submit" class="button">Refresh page</button>
+				</form>	
 			</td>
 		</tr>
 		<tr>
