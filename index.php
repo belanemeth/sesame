@@ -74,7 +74,7 @@ margin: 0 auto;
 
 .abovecenter {
 position: absolute;
-top: 30%;
+top: 25%;
 width:100%
 }
 
@@ -229,7 +229,7 @@ display: inline-block;
 
 .abovecenter {
 position: absolute;
-top: 40%;
+top: 33%;
 width:100%
 }
 
