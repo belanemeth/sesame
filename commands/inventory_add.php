@@ -33,8 +33,9 @@ table.other {
 	text-align: center;
 	width: 40%;
 	overflow: auto;
+display: flex;
+overflow-x: hidden;
 	border: 1px solid black;
-	display: flex;
 	flex-direction: column;
 	border-collapse: collapse;
 }
@@ -237,7 +238,7 @@ table {
 	}
 
 table.other {
-	width: 100%;
+	width: 95%;
 	height: 90%;
 	font-size: 200%;
 	}
