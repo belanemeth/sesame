@@ -27,6 +27,7 @@ overflow: hidden;
 color: white;
 font-size: 55px;
 font-family: 'Work Sans';
+
 }
 
 .pirosvonal {
@@ -58,12 +59,23 @@ overflow: auto;
 display: flex;
 flex-direction: column-reverse;
 }
+.log {
+font-size: 15px;
+font-family: 'Work Sans';
+padding-top: 2%;
+padding-bottom: 2%;
+text-align: center;
+height: 150px;
+width: 75%;
+overflow: auto;
+display: flex;
+flex-direction: column-reverse;
+}
 
 .hatter {
+background-image: url("wallpaper.png");
 background-repeat: no-repeat;
-background-position: center;
 background-size: cover;
-background-color: grey;
 
 }
 
@@ -74,7 +86,7 @@ margin: 0 auto;
 
 .abovecenter {
 position: absolute;
-top: 25%;
+top: 40%;
 width:100%
 }
 
@@ -180,7 +192,7 @@ html, body{
       overflow:initial !important;
     }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-device-width: 640px) {
 /* Add your custom styles here for Mobile */
 
 .button {
@@ -227,9 +239,13 @@ margin-right: -50%;
 display: inline-block;
 }
 
+.log {
+font-size: 10px;
+}
+
 .abovecenter {
 position: absolute;
-top: 33%;
+top: 35%;
 width:100%
 }
 
@@ -304,15 +320,19 @@ font-size: 16px;
 			<div class="text"><?php
 				$TSTAMP = date('Y-m-d h:i');
 				$device1 = shell_exec("ping -c 1 192.168.0.102 | grep packet | awk '{ print $6 \" \" $7 \" \" $8 }'");
+				$public_ip = shell_exec("curl icanhazip.com");
 				$word = "error";
 //				echo "BELA-SERVER: ${device1}<br />";
 //				echo "Last Update ${TSTAMP}<br />";
 				
 				if(strpos($device1, $word) !== false){
-				echo "The server is offline! :(";
+				echo "The local server is offline! :(<br />";
+				echo "The pubic IP is: $public_ip";
 				} else{
-				echo "The server is online! :)";	
-				}?>
+				echo "The local server is online! :)<br />";
+				echo "The pubic IP is: $public_ip";
+				}
+				?>
 			</div>
 		</td>
 		<td align="right" width="33%" valign="top">
@@ -390,6 +410,20 @@ font-size: 16px;
                         </td>
                 </tr>
 
+                <tr>
+                        <td align="center" valign="top">
+                                <form action="http://192.168.0.117:8080/phpmyadmin" method="get" target="_self">
+                                        <button type="submit" class="button">PHP My Admin</button>
+                                </form>
+                        </td>
+                </tr>
+				<tr>
+						<td align="center" valign="top">
+								<form action="http://192.168.0.117:8080/sesame/commands/inventory.php" method="get" target="_self">
+										<button type="submit" class="button">Babacuccok</button>
+								</form>
+			</td>
+		</tr>
 		<tr>
 
 			<td align="center" valign="bottom">
