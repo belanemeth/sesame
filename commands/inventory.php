@@ -266,8 +266,9 @@ width:100%
 				<th>Méret</th>
 				<th>Leírás</th>
 				<th>Kitől</th>
-				<th>Kölcsön?</th>
+				<th>Kölcsön</th>
 				<th>Dátum</th>
+				<th>Kép</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -281,7 +282,7 @@ width:100%
 				}
 
 				// Lekérdezzük az ITEM tábla összes rekordját
-				$sql = "SELECT ITEM.id, ITEM_TYPE.Tipus, ITEM.Megnev, ITEM.Meret, ITEM.leiras, CONTACT.Nev, CASE WHEN ITEM.Kolcson = 1 THEN 'igen' ELSE 'nem' END AS Kolcson, ITEM.Datum 
+				$sql = "SELECT ITEM.id, ITEM_TYPE.Tipus, ITEM.Megnev, ITEM.Meret, ITEM.leiras, CONTACT.Nev, CASE WHEN ITEM.Kolcson = 1 THEN 'igen' ELSE 'nem' END AS Kolcson, ITEM.Datum, ITEM.PicturePath
 						FROM ITEM 
 						LEFT JOIN CONTACT ON ITEM.Kitol=CONTACT.id 
 						LEFT JOIN ITEM_TYPE ON ITEM.ItemTypeID = ITEM_TYPE.id";
@@ -301,6 +302,11 @@ width:100%
 						echo "<td>" . $row["Nev"] . "</td>";
 						echo "<td>" . $row["Kolcson"] . "</td>";
 						echo "<td>" . $row["Datum"] . "</td>";
+						if($row["PicturePath"]) {
+						echo '<td><a href="' . $row["PicturePath"] . '">Kép megtekintése</a></td>';
+							} else {
+						echo "<td>Nincs kép</td>";
+									}
 						echo "</tr>";
 					}
 				} else {

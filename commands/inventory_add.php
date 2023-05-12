@@ -33,9 +33,8 @@ table.other {
 	text-align: center;
 	width: 40%;
 	overflow: auto;
-display: flex;
-overflow-x: hidden;
 	border: 1px solid black;
+	display: flex;
 	flex-direction: column;
 	border-collapse: collapse;
 }
@@ -143,6 +142,9 @@ border: none;
 margin: auto;
 
 }
+.browse {
+font-size: 18px;
+}
 
 .button {
 font-size: 18px;
@@ -196,7 +198,9 @@ padding: 5px 15px;
 display: inline-block;
 }
 
-
+.browse {
+font-size: 50px;
+}
 
 .lablec {
 left: 50%;
@@ -238,7 +242,7 @@ table {
 	}
 
 table.other {
-	width: 95%;
+	width: 100%;
 	height: 90%;
 	font-size: 200%;
 	}
@@ -282,7 +286,7 @@ top: 35%;
 	<tr>
 			<td>
 				<div>
-				<form method="POST">
+				<form method="POST" enctype="multipart/form-data">
 					<label for="tipus">Típus:</label>
 					<select class="input" name="tipus">
 			<?php
@@ -386,45 +390,136 @@ top: 35%;
 		</tr>
 		<tr>
 			<td>
+			</td>	
+		</tr>
+		<tr>
+			<td>
+				<input class="browse" type="file" accept="image/*" name="kep" id="kep">
 				<input class="button" class="input" type="submit" name="submit" value="Hozzáadás">
-				</form>
+			
 			</td>	
 		</tr>
 		<tr>
 			<td height="25px">
-				<?php
-			if(isset($_POST['submit'])) {
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+if(isset($_POST['submit'])) {
+	if (!empty($_FILES["kep"]["name"])) {
 		// Adatbázis kapcsolódás
 		$servername = "localhost";
-		$root = "root";
+		$username = "root";
 		$password = "Password.1";
 		$dbname = "Babacuccok";
 
-		$conn = mysqli_connect($servername, $root, $password, $dbname);
+		$conn = mysqli_connect($servername, $username, $password, $dbname);
+		// Ellenőrizzük a kapcsolatot
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+    $target_dir = "/media/babacuccok/";
+    $target_file = $target_dir . basename($_FILES["kep"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
+    // Ellenőrizzük, hogy a fájl valóban kép-e
+    $check = getimagesize($_FILES["kep"]["tmp_name"]);
+    if($check === false) {
+        echo "A fájl nem kép.";
+        $uploadOk = 0;
+    }
+
+    // Ellenőrizzük, hogy a fájl már létezik-e
+    if (file_exists($target_file)) {
+        echo "A fájl már létezik.";
+        $uploadOk = 0;
+    }
+
+    // Ellenőrizzük, hogy a fájl mérete megfelelő-e
+    if ($_FILES["kep"]["size"] > 50000000) {
+        echo "A fájl túl nagy.";
+        $uploadOk = 0;
+    }
+
+    // Engedélyezzük csak bizonyos fájltípusokat
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+    && $imageFileType != "gif" ) {
+        echo "Csak JPG, JPEG, PNG & GIF fájlok engedélyezettek.";
+        $uploadOk = 0;
+    }
 		// Űrlap elküldésekor az adatok mentése az ITEM táblába
-		if(isset($_POST['submit'])) {
-			$tipus = $_POST['tipus'];
-			$megnev = $_POST['megnev'];
-			$meret = $_POST['meret'];
-			$leiras = $_POST['leiras'];
-			$kitol = $_POST['kitol'];
-			$kolcson = isset($_POST['kolcson']) ? 1 : 0;
-			$datum = $_POST['datum'];
+		
+		 $target_dir = "/media/babacuccok/";
+$target_file = $target_dir . basename($_FILES["kep"]["name"]);
+//$uploadOk = 1;
+$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-			$sql = "INSERT INTO ITEM (ItemTypeID, Megnev, Meret, leiras, Kitol, kolcson, datum) VALUES ('$tipus', '$megnev', '$meret', '$leiras', '$kitol', '$kolcson', '$datum')";
+if (isset($_POST['submit'])) {
+$tipus = $_POST['tipus'];
+$megnev = $_POST['megnev'];
+$meret = $_POST['meret'];
+$leiras = $_POST['leiras'];
+$kitol = $_POST['kitol'];
+$kolcson = isset($_POST['kolcson']) ? 1 : 0;
+$datum = $_POST['datum'];
+if ($uploadOk == 1) {
+    if (move_uploaded_file($_FILES["kep"]["tmp_name"], $target_file)) {
+        $picturePath = mysqli_real_escape_string($conn, $target_file);
+        $sql = "INSERT INTO ITEM (ItemTypeID, Megnev, Meret, leiras, Kitol, kolcson, datum, PicturePath) VALUES ('$tipus', '$megnev', '$meret', '$leiras', '$kitol', '$kolcson', '$datum', '$picturePath')";
+        if (mysqli_query($conn, $sql)) {
+			shell_exec('baby.sh');
+            echo "A fájl sikeresen feltöltve és az adatok rögzítése megtörtént!";
+			// header('Location: inventory.php');
+			mysqli_close($conn);
+        } else {
+            echo "Hiba: " . $sql . "<br>" . mysqli_error($conn);
+        }
+    } else {
+        echo "Hiba a fájl feltöltése közben.";
+    }
+}
+}
+			}
 
-			if (mysqli_query($conn, $sql)) {
-				echo "Az adatok rögzítése megtörtént!";
-				shell_exec('baby.sh');
-				// header('Location: inventory.php');
-				mysqli_close($conn);
-		}	 else {
-        echo "Hiba: " . $sql . "<br>" . mysqli_error($conn);
-		}	
-		}
-		}
+else
+{
+// Adatbázis kapcsolódás
+		$servername = "localhost";
+		$username = "root";
+		$password = "Password.1";
+		$dbname = "Babacuccok";
+
+		$conn = mysqli_connect($servername, $username, $password, $dbname);
+		// Ellenőrizzük a kapcsolatot
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+		// Űrlap elküldésekor az adatok mentése az ITEM táblába
+$tipus = $_POST['tipus'];
+$megnev = $_POST['megnev'];
+$meret = $_POST['meret'];
+$leiras = $_POST['leiras'];
+$kitol = $_POST['kitol'];
+$kolcson = isset($_POST['kolcson']) ? 1 : 0;
+$datum = $_POST['datum'];
+        $sql = "INSERT INTO ITEM (ItemTypeID, Megnev, Meret, leiras, Kitol, kolcson, datum, PicturePath) VALUES ('$tipus', '$megnev', '$meret', '$leiras', '$kitol', '$kolcson', '$datum', NULL)";
+        if (mysqli_query($conn, $sql)) {
+			shell_exec('baby.sh');
+            echo "Az adatok rögzítése megtörtént!";
+			// header('Location: inventory.php');
+			mysqli_close($conn);
+        } else {
+            echo "Hiba: " . $sql . "<br>" . mysqli_error($conn);
+        } 
+
+}	
+}
 			?>
+			
+			</form>
 			</td>	
 		</tr>
 	</tbody>
