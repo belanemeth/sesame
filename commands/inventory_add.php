@@ -200,6 +200,7 @@ display: inline-block;
 
 .browse {
 font-size: 50px;
+width: 90%;
 }
 
 .lablec {
@@ -390,11 +391,11 @@ top: 35%;
 		</tr>
 		<tr>
 			<td>
-			</td>	
+				<input class="browse" type="file" accept="image/*" name="kep" id="kep">			
+			</td>
 		</tr>
-		<tr>
+		<tr>			
 			<td>
-				<input class="browse" type="file" accept="image/*" name="kep" id="kep">
 				<input class="button" class="input" type="submit" name="submit" value="Hozzáadás">
 			
 			</td>	
