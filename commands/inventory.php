@@ -274,7 +274,12 @@ width:100%
 		<tbody>
 			<?php
 				// Kapcsolódás az adatbázishoz
-				$conn = mysqli_connect('localhost', 'root', 'Password.1', 'Babacuccok');
+				$servername = "localhost";
+				$username = "root";
+				$password = "Password.1";
+				$dbname = "Babacuccok";
+
+				$conn = mysqli_connect($servername, $username, $password, $dbname);
 
 				// Ellenőrizzük a kapcsolatot
 				if (!$conn) {
@@ -348,7 +353,7 @@ width:100%
 				</form>
 				</td>
 				<td class="lableccella">
-					<form action="http://192.168.0.117:8080/sesame/commands/inventory_add.php" method="get" target="_self">
+					<form action="inventory_add.php" method="get" target="_self">
 					<button type="submit" class="button">Hozzáadás</button>
 					</form>
 				</td>

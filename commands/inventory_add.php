@@ -287,7 +287,7 @@ top: 35%;
 	<tr>
 			<td>
 				<div>
-				<form method="POST" enctype="multipart/form-data">
+				<form enctype="multipart/form-data" method="POST">
 					<label for="tipus">Típus:</label>
 					<select class="input" name="tipus">
 			<?php
@@ -391,7 +391,32 @@ top: 35%;
 		</tr>
 		<tr>
 			<td>
-				<input class="browse" type="file" accept="image/*" name="kep" id="kep">			
+				<input name="kep" id="kep" class="browse" type="file" accept="image/*">
+<input type="hidden" name="captured-image-data" id="captured-image-data">
+<input type="hidden" name="captured-image-name" id="captured-image-name">
+
+<script>
+const fileInput = document.getElementById('kep');
+const capturedImage = document.getElementById('captured-image');
+const capturedImageData = document.getElementById('captured-image-data');
+if (fileInput.files.length > 0) {
+  var file = fileInput.files[0];
+  var reader = new FileReader();
+
+  reader.onload = function(event) {
+    var imageData = event.target.result;
+    var imageName = file.name;
+    capturedImage.src = imageData; // Az elkészített kép megjelenítése, ha szükséges
+    capturedImageData.value = imageData;
+    document.getElementById("captured-image-name").value = imageName;
+  };
+
+  reader.readAsDataURL(file);
+}
+</script>
+
+
+
 			</td>
 		</tr>
 		<tr>			
@@ -408,85 +433,112 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-if(isset($_POST['submit'])) {
-	if (!empty($_FILES["kep"]["name"])) {
-		// Adatbázis kapcsolódás
-		$servername = "localhost";
-		$username = "root";
-		$password = "Password.1";
-		$dbname = "Babacuccok";
+if (isset($_POST['submit'])) {
+  if (!empty($_FILES["kep"]["name"]) || !empty($_POST['captured-image-data'])) {
+	  // Adatbázis kapcsolódás
+        $servername = "localhost";
+        $username = "root";
+        $password = "Password.1";
+        $dbname = "Babacuccok";
+        $conn = mysqli_connect($servername, $username, $password, $dbname);
+        // Ellenőrizzük a kapcsolatot
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+	  // Tallózott kép adatok
+			if (!empty($_FILES["kep"]["name"])) {
+			$target_dir = "/media/babacuccok/";
+			$target_file = $target_dir . basename($_FILES["kep"]["name"]);
+			$uploadOk = 1;
+			$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-		$conn = mysqli_connect($servername, $username, $password, $dbname);
-		// Ellenőrizzük a kapcsolatot
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-    $target_dir = "/media/babacuccok/";
-    $target_file = $target_dir . basename($_FILES["kep"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+			// Ellenőrizzük, hogy a fájl már létezik-e
+			if (file_exists($target_file)) {
+				echo "A fájl már létezik.";
+				$uploadOk = 0;
+			}
 
-    // Ellenőrizzük, hogy a fájl valóban kép-e
-    $check = getimagesize($_FILES["kep"]["tmp_name"]);
-    if($check === false) {
-        echo "A fájl nem kép.";
-        $uploadOk = 0;
-    }
+			// Ellenőrizzük, hogy a fájl mérete megfelelő-e
+			if ($_FILES["kep"]["size"] > 50000000) {
+				echo "A fájl túl nagy.";
+				$uploadOk = 0;
+			}
 
-    // Ellenőrizzük, hogy a fájl már létezik-e
-    if (file_exists($target_file)) {
-        echo "A fájl már létezik.";
-        $uploadOk = 0;
-    }
+			// Engedélyezzük csak bizonyos fájltípusokat
+			if (!in_array($imageFileType, ["jpg", "png", "jpeg", "gif"])) {
+				echo "Csak JPG, JPEG, PNG & GIF fájlok engedélyezettek.";
+				$uploadOk = 0;
+			}
 
-    // Ellenőrizzük, hogy a fájl mérete megfelelő-e
-    if ($_FILES["kep"]["size"] > 50000000) {
-        echo "A fájl túl nagy.";
-        $uploadOk = 0;
-    }
+			// Ellenőrizzük, hogy a fájl valóban kép-e
+			$check = getimagesize($_FILES["kep"]["tmp_name"]);
+			if ($check === false) {
+				echo "A tallózott fájl nem kép.";
+				$uploadOk = 0;
+			}
 
-    // Engedélyezzük csak bizonyos fájltípusokat
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
-        echo "Csak JPG, JPEG, PNG & GIF fájlok engedélyezettek.";
-        $uploadOk = 0;
-    }
-		// Űrlap elküldésekor az adatok mentése az ITEM táblába
-		
-		 $target_dir = "/media/babacuccok/";
-$target_file = $target_dir . basename($_FILES["kep"]["name"]);
-//$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+			// Ha minden ellenőrzés sikeres volt, akkor mozgatjuk át a fájlt az új helyére
+			if ($uploadOk === 1) {
+				if (move_uploaded_file($_FILES["kep"]["tmp_name"], $target_file)) {
+					// Sikeres mentés, folytathatjuk a többi művelettel
+					$picturePath = mysqli_real_escape_string($conn, $target_file);
+				} else {
+					echo "Hiba a fájl feltöltése közben.";
+				}
+			}
+     
+
+        // Ha kamerával készített kép van a POST-ban
+			if (!empty($_POST['captured-image-data'])) {
+				$image_data = $_POST['captured-image-data'];
+				$file_name = "captured_image_" . date("Ymd_His") . ".jpg"; // Az aktuális dátum és idő hozzáadása a fájlnévhez
+				$image_folder = "/media/babacuccok/";
+				$uploadOk = 1;
+				$file_path = $image_folder . $file_name;
+
+				if (file_put_contents($file_path, $image_data)) {
+					// Ellenőrizzük, hogy a fájl valóban kép-e
+					$image_type = exif_imagetype($file_path);
+					if ($image_type === false) {
+						echo "A készített fájl nem kép.";
+						$uploadOk = 0;
+					} else {
+						$picturePath = mysqli_real_escape_string($conn, $file_path);
+					}
+				} else {
+					echo "Hiba történt a fájl mentése során.";
+					$uploadOk = 0;
+				}
+			}
+
+	
+	// Űrlap elküldésekor az adatok mentése az ITEM táblába
 
 if (isset($_POST['submit'])) {
-$tipus = $_POST['tipus'];
-$megnev = $_POST['megnev'];
-$meret = $_POST['meret'];
-$leiras = $_POST['leiras'];
-$kitol = $_POST['kitol'];
-$kolcson = isset($_POST['kolcson']) ? 1 : 0;
-$datum = $_POST['datum'];
-if ($uploadOk == 1) {
-    if (move_uploaded_file($_FILES["kep"]["tmp_name"], $target_file)) {
+    $tipus = $_POST['tipus'];
+    $megnev = $_POST['megnev'];
+    $meret = $_POST['meret'];
+    $leiras = $_POST['leiras'];
+    $kitol = $_POST['kitol'];
+    $kolcson = isset($_POST['kolcson']) ? 1 : 0;
+    $datum = $_POST['datum'];
+    if ($uploadOk == 1) {
         $picturePath = mysqli_real_escape_string($conn, $target_file);
         $sql = "INSERT INTO ITEM (ItemTypeID, Megnev, Meret, leiras, Kitol, kolcson, datum, PicturePath) VALUES ('$tipus', '$megnev', '$meret', '$leiras', '$kitol', '$kolcson', '$datum', '$picturePath')";
         if (mysqli_query($conn, $sql)) {
-			shell_exec('baby.sh');
+            shell_exec('baby.sh');
             echo "A fájl sikeresen feltöltve és az adatok rögzítése megtörtént!";
-			// header('Location: inventory.php');
-			mysqli_close($conn);
+            // header('Location: inventory.php');
+            mysqli_close($conn);
         } else {
             echo "Hiba: " . $sql . "<br>" . mysqli_error($conn);
         }
-    } else {
-        echo "Hiba a fájl feltöltése közben.";
     }
 }
 }
-			}
-
-else
-{
+}	
+	//Ha nincs képünk
+	else {
 // Adatbázis kapcsolódás
 		$servername = "localhost";
 		$username = "root";
@@ -516,9 +568,9 @@ $datum = $_POST['datum'];
             echo "Hiba: " . $sql . "<br>" . mysqli_error($conn);
         } 
 
-}	
+}			
 }
-			?>
+?>
 			
 			</form>
 			</td>	
@@ -533,8 +585,6 @@ $datum = $_POST['datum'];
 			 
 				</td>
 				<td>
-					
-				</form>
 				</td>
 				<td>
 				<p> </p>
@@ -545,7 +595,7 @@ $datum = $_POST['datum'];
 				
 				 </td>
 				<td class="lableccella">
-					<form action="http://192.168.0.117:8080/sesame/commands/inventory.php" method="get" target="_self">
+					<form action="inventory.php" method="get" target="_self">
 					<button type="submit" class="button">Inventory</button>
 				</form>
 				</td>
