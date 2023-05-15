@@ -327,7 +327,7 @@ top: 35%;
 		<tr>
 			<td>
 				<label for="megnev">Megnevezés:</label>
-				<input class="input" type="text" name="megnev" size="16" autofocus required><br><br>
+				<input class="input" type="text" name="megnev" id ="megnev" size="25" autofocus required><br><br>
 			</td>	
 		</tr>
 		<tr>
@@ -392,28 +392,28 @@ top: 35%;
 		<tr>
 			<td>
 				<input name="kep" id="kep" class="browse" type="file" accept="image/*">
-<input type="hidden" name="captured-image-data" id="captured-image-data">
-<input type="hidden" name="captured-image-name" id="captured-image-name">
+				<input type="hidden" name="captured-image-data" id="captured-image-data">
+				<input type="hidden" name="captured-image-name" id="captured-image-name">
 
-<script>
-const fileInput = document.getElementById('kep');
-const capturedImage = document.getElementById('captured-image');
-const capturedImageData = document.getElementById('captured-image-data');
-if (fileInput.files.length > 0) {
-  var file = fileInput.files[0];
-  var reader = new FileReader();
+				<script>
+				const fileInput = document.getElementById('kep');
+				const capturedImage = document.getElementById('kep');
+				const capturedImageData = document.getElementById('captured-image-data');
+				if (fileInput.files.length > 0) {
+				  var file = fileInput.files[0];
+				  var reader = new FileReader();
 
-  reader.onload = function(event) {
-    var imageData = event.target.result;
-    var imageName = file.name;
-    capturedImage.src = imageData; // Az elkészített kép megjelenítése, ha szükséges
-    capturedImageData.value = imageData;
-    document.getElementById("captured-image-name").value = imageName;
-  };
+				  reader.onload = function(event) {
+					var imageData = event.target.result;
+					var imageName = file.name;
+					capturedImage.src = imageData; // Az elkészített kép megjelenítése, ha szükséges
+					capturedImageData.value = imageData;
+					document.getElementById("captured-image-name").value = imageName;
+				  };
 
-  reader.readAsDataURL(file);
-}
-</script>
+				  reader.readAsDataURL(file);
+				}
+				</script>
 
 
 
@@ -445,73 +445,58 @@ if (isset($_POST['submit'])) {
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
-	  // Tallózott kép adatok
+	  // kép adatok
 			if (!empty($_FILES["kep"]["name"])) {
-			$target_dir = "/media/babacuccok/";
-			$target_file = $target_dir . basename($_FILES["kep"]["name"]);
-			$uploadOk = 1;
-			$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-			// Ellenőrizzük, hogy a fájl már létezik-e
-			if (file_exists($target_file)) {
-				echo "A fájl már létezik.";
-				$uploadOk = 0;
-			}
-
-			// Ellenőrizzük, hogy a fájl mérete megfelelő-e
-			if ($_FILES["kep"]["size"] > 50000000) {
-				echo "A fájl túl nagy.";
-				$uploadOk = 0;
-			}
-
-			// Engedélyezzük csak bizonyos fájltípusokat
-			if (!in_array($imageFileType, ["jpg", "png", "jpeg", "gif"])) {
-				echo "Csak JPG, JPEG, PNG & GIF fájlok engedélyezettek.";
-				$uploadOk = 0;
-			}
-
-			// Ellenőrizzük, hogy a fájl valóban kép-e
-			$check = getimagesize($_FILES["kep"]["tmp_name"]);
-			if ($check === false) {
-				echo "A tallózott fájl nem kép.";
-				$uploadOk = 0;
-			}
-
-			// Ha minden ellenőrzés sikeres volt, akkor mozgatjuk át a fájlt az új helyére
-			if ($uploadOk === 1) {
-				if (move_uploaded_file($_FILES["kep"]["tmp_name"], $target_file)) {
-					// Sikeres mentés, folytathatjuk a többi művelettel
-					$picturePath = mysqli_real_escape_string($conn, $target_file);
-				} else {
-					echo "Hiba a fájl feltöltése közben.";
-				}
-			}
-     
-
-        // Ha kamerával készített kép van a POST-ban
-			if (!empty($_POST['captured-image-data'])) {
-				$image_data = $_POST['captured-image-data'];
-				$file_name = "captured_image_" . date("Ymd_His") . ".jpg"; // Az aktuális dátum és idő hozzáadása a fájlnévhez
-				$image_folder = "/media/babacuccok/";
+				$target_dir = "/media/babacuccok/";
 				$uploadOk = 1;
-				$file_path = $image_folder . $file_name;
+				$original_filename = $_POST['megnev']; // Az eredeti képnév a "megnev" formból
+				$original_filename = transliterator_transliterate('Any-Latin; Latin-ASCII;', $original_filename); // Ékezetes karakterek cseréje
+				$original_filename = str_replace(' ', '_', $original_filename); // Szóköz helyett alulvonás
+				$original_filename = preg_replace('/[^a-zA-Z0-9\s]/u', '', $original_filename); // Megtartja csak az angol betűket, számokat és szóközöket
 
-				if (file_put_contents($file_path, $image_data)) {
-					// Ellenőrizzük, hogy a fájl valóban kép-e
-					$image_type = exif_imagetype($file_path);
-					if ($image_type === false) {
-						echo "A készített fájl nem kép.";
-						$uploadOk = 0;
-					} else {
-						$picturePath = mysqli_real_escape_string($conn, $file_path);
-					}
-				} else {
-					echo "Hiba történt a fájl mentése során.";
+				$extension = strtolower(pathinfo($_FILES["kep"]["name"], PATHINFO_EXTENSION));
+				$datetime = date("Ymd_His");
+				$new_filename = $original_filename . '_' . $datetime . '.' . $extension;
+				$target_file = $target_dir . $new_filename;
+				
+				// Ellenőrizzük, hogy a fájl már létezik-e
+	//			if (file_exists($target_file)) {
+	//				echo "A fájl már létezik.";
+	//				$uploadOk = 0;
+	//			}
+
+				// Ellenőrizzük, hogy a fájl mérete megfelelő-e
+				if ($_FILES["kep"]["size"] > 50000000) {
+					echo "A fájl túl nagy.";
 					$uploadOk = 0;
 				}
+
+				// Engedélyezzünk csak bizonyos fájltípusokat
+				if (!in_array($extension, ["jpg", "png", "jpeg", "gif"])) {
+					echo "Csak JPG, JPEG, PNG & GIF fájlok engedélyezettek.";
+					$uploadOk = 0;
+				}
+
+				// Ellenőrizzük, hogy a fájl valóban kép-e
+				$check = getimagesize($_FILES["kep"]["tmp_name"]);
+				if ($check === false) {
+					echo "A fájl nem kép.";
+					$uploadOk = 0;
+				}
+
+				// Ha minden ellenőrzés sikeres volt, akkor mozgatjuk át a fájlt az új helyére
+				if ($uploadOk === 1) {
+					if (move_uploaded_file($_FILES["kep"]["tmp_name"], $target_file)) {
+						// Sikeres mentés, folytathatjuk a többi művelettel
+						$picturePath = mysqli_real_escape_string($conn, $target_file);
+					} else {
+						echo "Hiba a fájl feltöltése közben.";
+					}
+				}
 			}
 
-	
+
+      	
 	// Űrlap elküldésekor az adatok mentése az ITEM táblába
 
 if (isset($_POST['submit'])) {
@@ -536,7 +521,7 @@ if (isset($_POST['submit'])) {
     }
 }
 }
-}	
+	
 	//Ha nincs képünk
 	else {
 // Adatbázis kapcsolódás
