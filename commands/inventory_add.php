@@ -33,6 +33,7 @@ table.other {
 	text-align: center;
 	width: 40%;
 	overflow: auto;
+	overflow-x: hidden;
 	border: 1px solid black;
 	display: flex;
 	flex-direction: column;
@@ -142,6 +143,18 @@ border: none;
 margin: auto;
 
 }
+
+.lablec_echo {
+  position: relative;
+  bottom: 0px;
+  width: 90%;
+  font-size: 50px;
+  text-align: center;	
+  display: block;
+margin: auto;
+
+}
+
 .browse {
 font-size: 18px;
 }
@@ -397,7 +410,8 @@ top: 35%;
 
 				<script>
 				const fileInput = document.getElementById('kep');
-				const capturedImage = document.getElementById('kep');
+				//lehet szar a változó, kep volt 
+				const capturedImage = document.getElementById('captured-image-data');
 				const capturedImageData = document.getElementById('captured-image-data');
 				if (fileInput.files.length > 0) {
 				  var file = fileInput.files[0];
@@ -422,12 +436,17 @@ top: 35%;
 		<tr>			
 			<td>
 				<input class="button" class="input" type="submit" name="submit" value="Hozzáadás">
-			
 			</td>	
 		</tr>
-		<tr>
-			<td height="25px">
-<?php
+	</tbody>
+</table>
+
+<div>
+	<table class="lablec">
+	
+			<tr class="none">
+				<td class="lablec_echo">
+				<?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -512,7 +531,7 @@ if (isset($_POST['submit'])) {
         $sql = "INSERT INTO ITEM (ItemTypeID, Megnev, Meret, leiras, Kitol, kolcson, datum, PicturePath) VALUES ('$tipus', '$megnev', '$meret', '$leiras', '$kitol', '$kolcson', '$datum', '$picturePath')";
         if (mysqli_query($conn, $sql)) {
             shell_exec('baby.sh');
-            echo "A fájl sikeresen feltöltve és az adatok rögzítése megtörtént!";
+            echo "" . $megnev . " hozzáadva és a kép feltöltve!";
             // header('Location: inventory.php');
             mysqli_close($conn);
         } else {
@@ -546,7 +565,7 @@ $datum = $_POST['datum'];
         $sql = "INSERT INTO ITEM (ItemTypeID, Megnev, Meret, leiras, Kitol, kolcson, datum, PicturePath) VALUES ('$tipus', '$megnev', '$meret', '$leiras', '$kitol', '$kolcson', '$datum', NULL)";
         if (mysqli_query($conn, $sql)) {
 			shell_exec('baby.sh');
-            echo "Az adatok rögzítése megtörtént!";
+            echo "" . $megnev . " hozzáadva!";
 			// header('Location: inventory.php');
 			mysqli_close($conn);
         } else {
@@ -557,27 +576,11 @@ $datum = $_POST['datum'];
 }
 ?>
 			
-			</form>
-			</td>	
-		</tr>
-	</tbody>
-</table>
-
-<div>
-	<table class="lablec">
-			<tr class="none">
-				<td>
-			 
-				</td>
-				<td>
-				</td>
-				<td>
-				<p> </p>
+			</form>				
 				</td>
 			</tr>
 			<tr class="none">
 				<td class="lableccella">
-				
 				 </td>
 				<td class="lableccella">
 					<form action="inventory.php" method="get" target="_self">
@@ -585,8 +588,7 @@ $datum = $_POST['datum'];
 				</form>
 				</td>
 				<td class="lableccella">
-				
-				</td>
+			 </td>
 			</tr>
 	</table>
 </div>
