@@ -373,7 +373,14 @@ font-size: 16px;
 			</div>
 			</td>
 		</tr>
-
+		<tr>
+			<td align="center" valign="top">
+				<form action="http://192.168.0.117:3000" method="get" target="_self">
+					<button type="submit" class="button">Grafana</button>
+				</form>
+			</td>	
+		</tr>
+		
 		<tr>
 			<td align="center" valign="top">
 				<form action="http://192.168.0.117/admin/index.php" method="get" target="_self">
@@ -454,25 +461,26 @@ font-size: 16px;
 				</form>
 			</td>
 		</tr>
-		<tr>
+		<tr>			
 			<td align="center" valign="top">
-				<form action="/sesame/commands/nagios_restart.php">
-						<input class="button" type="submit" value="Restart nagios">
+				<form action="/sesame/commands/backup_db_pics.php">
+						<input class="button" type="submit" value="Backup db">
 				</form>
 			</td>
 		</tr>
-		<tr>
-			<td align="center" valign="top">
-				<form action="/sesame/commands/refresh.php" method="get" target="_self">
-						<button type="submit" class="button">Refresh page</button>
-				</form>	
-			</td>
-		</tr>
+		
 		<tr>
 			<td align="center" valign="top">
 				<form action="/sesame/commands/log_archive.php">
 						<input class="button" type="submit" value="Archive logs">
 				</form>
+			</td>
+		</tr>
+		<tr>
+			<td align="center" valign="top">
+				<form action="/sesame/index.php" method="get" target="_self">
+						<button type="submit" class="button">Refresh page</button>
+				</form>	
 			</td>
 		</tr>
 		<tr>
