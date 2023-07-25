@@ -4,7 +4,6 @@ require_once '/var/www/html/sesame/vendor/phpoffice/phpspreadsheet/src/PhpSpread
 require_once '/var/www/html/sesame/vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xlsx.php';
 require_once '/var/www/html/sesame/commands/dbconfig.php';
 
-
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
 // Adatok lekérdezése

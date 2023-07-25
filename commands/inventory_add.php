@@ -8,7 +8,6 @@
 </head>
 <body class="hatter" text="#FFFFFF">
 
-
 <table  class="other" align="center">
 	<thead>
 		<tr>

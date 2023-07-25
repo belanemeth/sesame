@@ -1,9 +1,10 @@
 #PhpSpreadsheet files
 vendor/
-
-#composer files
 composer.json
 composer.lock
 
 #db connection file
 commands/dbconfig.php
+
+#db xlsx file
+commands/adatok.xlsx

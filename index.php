@@ -243,7 +243,7 @@
 			<td align="center" valign="top">
 				<div class="log">
 					<?php
-					echo nl2br(file_get_contents( "/var/log/sesame/sesame.log" )); // get the contents, and echo it out.
+					echo nl2br(file_get_contents( "/var/log/sesame/sesame.log" )); // get the main log file contents, and echo it out.
 					?>
 				</div>
 			</td>

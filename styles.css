@@ -151,6 +151,7 @@ font-family: arial;
 color: white;
 background-color: rgba(0, 0, 0, 0.6);
 }
+
 .button2:hover {
   background-color: rgba(0, 0, 0, 1)
  }
