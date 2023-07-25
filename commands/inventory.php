@@ -72,8 +72,6 @@
 		</tbody>
 	</table>
 				
-
-
 <div>
 	<table class="lablec" width="100%">
 	<tr class="none">
