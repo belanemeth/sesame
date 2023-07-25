@@ -4,285 +4,7 @@
 <link rel="icon" href="baby_icon.png">
 	<title>Babacuccok</title>
 	
-	<style>
-@import url('https://fonts.googleapis.com/css?family=Work+Sans:300&subset=latin-ext');
-html, Body {
-Height: 100%;
-Margin: 0;
-overflow: hidden;
-color: white;
-font-size: 55px;
-font-family: 'Work Sans';
-}
-
-table {
-	font-size: 20px;
-	font-family: 'Work Sans';
-	text-align: center;
-	width: 60%;
-	overflow: auto;
-	border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  border-collapse: collapse;
-}
-
-table.other {
-	font-size: 20px;
-	font-family: 'Work Sans';
-	text-align: center;
-	width: 40%;
-	overflow: auto;
-	overflow-x: hidden;
-	border: 1px solid black;
-	display: flex;
-	flex-direction: column;
-	border-collapse: collapse;
-}
-
-thead {
-  display: flex;
-  position: sticky;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  flex-direction: column;
-  align-items: stretch;
-}
-
-tr {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  border: 1px solid black;
-}
-
-tr.none {
- border: none;
-}
-
-th {
-font-size: 22px;	
-flex: 1;
-padding: 5px;
-text-align: center;
-}
-
-td {
-  flex: 1;
-  padding: 5px;
-  text-align: center;
-}
-
-
-
-
-.hatter {
-background-image: url("wallpaper.png");
-background-repeat: repeat;
-background-size: cover;
-background-blend-mode: darken;
-
-}
-
-.textbox {
-width: 50%;
-margin: 0 auto;
-}
-
-.abovecenter {
-position: absolute;
-top: 40%;
-width:100%
-}
-
-
-.center {
-position: absolute;
-left: 50%;
-transform: translate(-50%, -50%);
-margin-right: -50%;
-}
-
-.videosize {
-width: auto;
-height: auto;
-min-width: 100%;
-min-height: 100%;
-position: fixed;
-object-fit: fill;
-}
-
-
-.fejlec2 {
-position: absolute;
-left: 50%;
-top: 4%;
-transform: translate( -50%, 0);
-font-size: 20px;
-margin-right: -50%;
-}
-
-
-.lablec {
-position: relative;
-left: 50%;
-transform: translate( -50%, 0);
-font-size: 30px;
-bottom: 0;
-margin-right: -50%;
-border: none;
-}
-
-.lableccella {
-  position: relative;
-  bottom: 0px;
-  width: 33%;
-  height: 80px;
-  text-align: center;	
-  display: block;
-margin: auto;
-
-}
-
-.lablec_echo {
-  position: relative;
-  bottom: 0px;
-  width: 90%;
-  font-size: 50px;
-  text-align: center;	
-  display: block;
-margin: auto;
-
-}
-
-.browse {
-font-size: 18px;
-}
-
-.button {
-font-size: 18px;
-color: white;
-background-color: rgba(0, 0, 0, 0.6);
-padding: 10px 30px;
-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-
-}
-
-.button:hover {
-  background-color: rgba(0, 0, 0, 1)
- 
- }
-
-.button:active{
-color: grey;
-}
-
-.input {
-width: 30%;
-}
-
-.font {
-font-size: 20px
-}
-
-.button2 {
-font-size: 14px;
-font-family: arial;
-color: white;
-background-color: rgba(0, 0, 0, 0.6);
-}
-.button2:hover {
-  background-color: rgba(0, 0, 0, 1)
- }
-
-html, body{
-      overflow:initial !important;
-    }
-
-@media only screen and (max-device-width: 640px) {
-/* Add your custom styles here for Mobile */
-
-.button {
-font-size: 50px;
-font-family: arial;
-color: white;
-background-color: rgba(0, 0, 0, 0.7);
-padding: 5px 15px;
-display: inline-block;
-}
-
-.browse {
-font-size: 50px;
-width: 90%;
-}
-
-.lablec {
-left: 50%;
-transform: translate( -50%, 0);
-top: 0;
-margin-right: -50%;
-}
-
-
-.banner {
-font-size: 35px;
-font-family: 'Work Sans';
-}
-
-.fejlec {
-top: 17%;
-left: 50%;
-transform: translate( -50%, 0);
-font-size: 10px;
-margin-right: -50%;
-display: inline-block;
-}
-
-.input {
-font-size: 70px;
-width: 90%;
-}
-
-input[type=checkbox]
-{
-  transform: scale(5);
-  padding: 10px;
-}
-
-
-table {
-	width: 60%;
-	font-size: 200%;
-	}
-
-table.other {
-	width: 100%;
-	height: 90%;
-	font-size: 200%;
-	}
-
-
-tr {
-  border: 1px solid black;
-}
-
-tr.none {
- border: none;
-}
-
-.abovecenter {
-position: absolute;
-top: 35%;
-}
-
-
-}
-@media only screen and (max-width: 480px) {
-/* Add your custom styles here for smaller Mobile */
-}
-
-</style>
-
+	<link rel="stylesheet" href="styles_add.css">
 </head>
 <body class="hatter" text="#FFFFFF">
 
@@ -304,18 +26,12 @@ top: 35%;
 					<label for="tipus">Típus:</label>
 					<select class="input" name="tipus">
 			<?php
-				// Adatbázis kapcsolódás
-				$servername = "localhost";
-				$root = "root";
-				$password = "Password.1";
-				$dbname = "Babacuccok";
-
-				$conn = mysqli_connect($servername, $root, $password, $dbname);
+				require_once 'dbconfig.php';
+				$conn = mysqli_connect($servername, $username, $password, $dbname);
 
 				// Ellenőrizzük a kapcsolatot
 				if ($conn->connect_error) {
-				die("Kapcsolódási hiba: " . $conn->connect_error);
-			}
+				die("Kapcsolódási hiba: " . $conn->connect_error);}
 
 			// Lekérdezzük a tipusokat
 			$sql = "SELECT id, Tipus FROM ITEM_TYPE
@@ -332,6 +48,7 @@ top: 35%;
 			// Bezárjuk az adatbázis kapcsolatot
 			mysqli_close($conn);
 			?>
+
 			</select><br><br>
 			</div>
 		</td>
@@ -361,12 +78,8 @@ top: 35%;
 		<select class="input" name="kitol">
 			<?php
 				// Adatbázis kapcsolódás
-				$servername = "localhost";
-				$root = "root";
-				$password = "Password.1";
-				$dbname = "Babacuccok";
-
-				$conn = mysqli_connect($servername, $root, $password, $dbname);
+				require_once 'dbconfig.php';
+				$conn = mysqli_connect($servername, $username, $password, $dbname);
 
 				// Ellenőrizzük a kapcsolatot
 			if ($conn->connect_error) {
@@ -409,10 +122,11 @@ top: 35%;
 				<input type="hidden" name="captured-image-name" id="captured-image-name">
 
 				<script>
+					// képmentéshez változók
 				const fileInput = document.getElementById('kep');
-				//lehet szar a változó, kep volt 
 				const capturedImage = document.getElementById('captured-image-data');
 				const capturedImageData = document.getElementById('captured-image-data');
+
 				if (fileInput.files.length > 0) {
 				  var file = fileInput.files[0];
 				  var reader = new FileReader();
@@ -455,10 +169,7 @@ error_reporting(E_ALL);
 if (isset($_POST['submit'])) {
   if (!empty($_FILES["kep"]["name"]) || !empty($_POST['captured-image-data'])) {
 	  // Adatbázis kapcsolódás
-        $servername = "localhost";
-        $username = "root";
-        $password = "Password.1";
-        $dbname = "Babacuccok";
+	  	require_once 'dbconfig.php';
         $conn = mysqli_connect($servername, $username, $password, $dbname);
         // Ellenőrizzük a kapcsolatot
         if (!$conn) {
@@ -471,15 +182,15 @@ if (isset($_POST['submit'])) {
 				$original_filename = $_POST['megnev']; // Az eredeti képnév a "megnev" formból
 				$original_filename = transliterator_transliterate('Any-Latin; Latin-ASCII;', $original_filename); // Ékezetes karakterek cseréje
 				$original_filename = str_replace(' ', '_', $original_filename); // Szóköz helyett alulvonás
-				$original_filename = preg_replace('/[^a-zA-Z0-9\s]/u', '', $original_filename); // Megtartja csak az angol betűket, számokat és szóközöket
+				$original_filename = preg_replace('/[^a-zA-Z0-9\s]/u', '', $original_filename); // csak az angol betűket, számokat és szóközöket tartjuk meg
 
 				$extension = strtolower(pathinfo($_FILES["kep"]["name"], PATHINFO_EXTENSION));
 				$datetime = date("Ymd_His");
 				$new_filename = $original_filename . '_' . $datetime . '.' . $extension;
 				$target_file = $target_dir . $new_filename;
 				
-				// Ellenőrizzük, hogy a fájl már létezik-e
-	//			if (file_exists($target_file)) {
+				// Ellenőrizzük, hogy a fájl már létezik-e  - felesleges function, minden kép egyedi nevet kap
+	//				if (file_exists($target_file)) {
 	//				echo "A fájl már létezik.";
 	//				$uploadOk = 0;
 	//			}
@@ -496,7 +207,7 @@ if (isset($_POST['submit'])) {
 					$uploadOk = 0;
 				}
 
-				// Ellenőrizzük, hogy a fájl valóban kép-e
+				// Ellenőrizzük, hogy a fájl valóban kép-e // működik ez?
 				$check = getimagesize($_FILES["kep"]["tmp_name"]);
 				if ($check === false) {
 					echo "A fájl nem kép.";
@@ -532,7 +243,7 @@ if (isset($_POST['submit'])) {
         if (mysqli_query($conn, $sql)) {
             shell_exec('baby.sh');
             echo "" . $megnev . " hozzáadva és a kép feltöltve!";
-            // header('Location: inventory.php');
+            // header('Location: inventory.php'); // nem lehet escapelni mert van kitöltött form, todo
             mysqli_close($conn);
         } else {
             echo "Hiba: " . $sql . "<br>" . mysqli_error($conn);
@@ -541,36 +252,32 @@ if (isset($_POST['submit'])) {
 }
 }
 	
-	//Ha nincs képünk
+	//Ha nincs képünk de van adatunk
 	else {
 // Adatbázis kapcsolódás
-		$servername = "localhost";
-		$username = "root";
-		$password = "Password.1";
-		$dbname = "Babacuccok";
-
+		require_once 'dbconfig.php';
 		$conn = mysqli_connect($servername, $username, $password, $dbname);
 		// Ellenőrizzük a kapcsolatot
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 		// Űrlap elküldésekor az adatok mentése az ITEM táblába
-$tipus = $_POST['tipus'];
-$megnev = $_POST['megnev'];
-$meret = $_POST['meret'];
-$leiras = $_POST['leiras'];
-$kitol = $_POST['kitol'];
-$kolcson = isset($_POST['kolcson']) ? 1 : 0;
-$datum = $_POST['datum'];
-        $sql = "INSERT INTO ITEM (ItemTypeID, Megnev, Meret, leiras, Kitol, kolcson, datum, PicturePath) VALUES ('$tipus', '$megnev', '$meret', '$leiras', '$kitol', '$kolcson', '$datum', NULL)";
-        if (mysqli_query($conn, $sql)) {
-			shell_exec('baby.sh');
-            echo "" . $megnev . " hozzáadva!";
-			// header('Location: inventory.php');
-			mysqli_close($conn);
-        } else {
-            echo "Hiba: " . $sql . "<br>" . mysqli_error($conn);
-        } 
+			$tipus = $_POST['tipus'];
+			$megnev = $_POST['megnev'];
+			$meret = $_POST['meret'];
+			$leiras = $_POST['leiras'];
+			$kitol = $_POST['kitol'];
+			$kolcson = isset($_POST['kolcson']) ? 1 : 0;
+			$datum = $_POST['datum'];
+					$sql = "INSERT INTO ITEM (ItemTypeID, Megnev, Meret, leiras, Kitol, kolcson, datum, PicturePath) VALUES ('$tipus', '$megnev', '$meret', '$leiras', '$kitol', '$kolcson', '$datum', NULL)";
+					if (mysqli_query($conn, $sql)) {
+						shell_exec('baby.sh');
+						echo "" . $megnev . " hozzáadva!";
+						// header('Location: inventory.php');
+						mysqli_close($conn);
+					} else {
+						echo "Hiba: " . $sql . "<br>" . mysqli_error($conn);
+					} 
 
 }			
 }
