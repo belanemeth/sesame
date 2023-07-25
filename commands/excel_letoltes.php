@@ -2,12 +2,8 @@
 require '/var/www/html/sesame/vendor/autoload.php';
 require_once '/var/www/html/sesame/vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Spreadsheet.php';
 require_once '/var/www/html/sesame/vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xlsx.php';
+require_once '/var/www/html/sesame/commands/dbconfig.php';
 
-// Adatbázis kapcsolat létrehozása
-$servername = "localhost";
-$username = "root";
-$password = "Password.1";
-$dbname = "Babacuccok";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
